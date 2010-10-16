@@ -132,7 +132,7 @@ def main(args=sys.argv):
                     message = event.data["message"]
                 elif event.kind == "push":
                     title = "Push from %s:" % event.user_email
-                    message = "%s pushed to a repository." % event.user_email
+                    message = "Pushed to a repository."
                 elif event.kind == "checkout":
                     title = "Checkout from %s:" % event.user_email
                     message = "Currently in branch '%s'." % event.data["active_branch"]
