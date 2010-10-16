@@ -2,6 +2,8 @@ class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token 
 
   def push
+    # TODO do work here
+    render :json => {:status => "OK"}
   end
 
   def pusherror
