@@ -163,3 +163,15 @@ table.container tr:nth-child(even) {
   /*background-color: #f3f3f3;*/
 }
 
+table.signup .input {
+  width: 200px;
+}
+
+table.signup td {
+  padding-bottom: 6px;
+}
+
+table.signup td:nth-child(1) {
+  text-align: right;
+  padding-right: 12px;
+}
