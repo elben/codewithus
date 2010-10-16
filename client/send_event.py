@@ -1,4 +1,3 @@
-import git
 import urllib
 import urllib2
 import sys
@@ -6,33 +5,21 @@ import time
 
 from pprint import pprint
 
+import git_event
+import config
+
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
 USER_EMAIL = "jasontbradshaw@gmail.com"
 SERVER_ADDRESS = "http://codewithus.heroku.com"
-
-class Event:
-    """
-    Represents an event that we can push to the server.  Gets created
-    and returned by the build_* functions, and sent to the actual server
-    by a Sender object.
-    """
-    
-    def __init__(self, type, timestamp, user_email, data):
-        self.type = type
-        self.timestamp = timestamp
-        self.user_email = user_email
-        
-        # a dict of event-type specific info (gets parsed by Sender)
-        self.data = data
 
 class Sender:
     """
     Sends an event to the specified remote server.
     """
     
-    def __init__(self, server_address):
-        self.server_address = server_address
+    def __init__(self, server_name):
+        self.server_name = server_name
         
         # basic info for our sender
         self.user_agent = "CodeWithUs Client"
@@ -58,12 +45,11 @@ class Sender:
         values["type"] = event.type
         
         # build the http request
-        url = self.server_address + self.event_post_url
+        url = self.server_name + self.event_post_url
         data = urllib.urlencode(values)
-        headers = {"User-Agent": self.user_agent}
-        
+            
         # build the request object and get the response data
-        request = urllib2.Request(url, data, headers)
+        request = urllib2.Request(url, data)
         
         try:
             response = urllib2.urlopen(request)
@@ -71,39 +57,6 @@ class Sender:
         except Exception, e:
             print e
             return
-
-def build_push(repo):
-    return "push!"
-
-def build_commit(repo):
-    # get the commit we're going to operate on
-    commit = repo.head.commit # latest commit for this repository
-    
-    # all the data we'll need for this commit:
-    #  active_branch: the current branch
-    #  author_email: the email of the author of the commit
-    #  hash: the sha hash (in hex) of the commit
-    #  message: the commit message
-    #  deletions: number of lines deleted
-    #  insertions: number of lines inserted
-    #  files: number of files modified
-    data = {
-             "active_branch": repo.active_branch.name,
-             "commit_hash": commit.hexsha,
-             "author_email": commit.author.email,
-             "message": commit.message,
-             "deletions": commit.stats.total["deletions"],
-             "insertions": commit.stats.total["insertions"],
-             "files": commit.stats.total["files"],
-           }
-    
-    return Event("commit", commit.committed_date, USER_EMAIL, data)
-
-def build_branch(repo):
-    return "branch!"
-
-def build_checkout(repo):
-    return "checkout!"
 
 def main(args=sys.argv):
     """
@@ -114,8 +67,8 @@ def main(args=sys.argv):
         print "ERROR: No event type specified."
         return
     
-    # 'connect' to our specified repository
-    repo = git.Repo(REPO_DIR)
+    # build events from the specified repository
+    builder = git_event.EventBuilder(config.REPO_DIR, config.USER_EMAIL)
     
     # the type of event we're creating
     command = args[1]
@@ -123,19 +76,19 @@ def main(args=sys.argv):
     # switch on command type
     event = None
     if command == "push":
-        event = build_push(repo)
+        event = builder.build_push()
     elif command == "commit":
-        event = build_commit(repo)
+        event = builder.build_commit()
     elif command == "branch":
-        event = build_branch(repo)
+        event = builder.build_branch()
     elif command == "checkout":
-        event = build_checkout(repo)
+        event = builder.build_checkout()
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
         return
     
     # send our event to the server
-    sender = Sender(SERVER_ADDRESS)
+    sender = Sender(config.SERVER_NAME)
     if event is not None:
         sender.send_event(event)
 
