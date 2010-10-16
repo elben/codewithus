@@ -1,0 +1,2 @@
+[alias]
+        p = !python client/send_event.py push && git push
