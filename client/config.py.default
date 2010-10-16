@@ -2,13 +2,16 @@
 #################################################
 
 # your user email, used to assign events to you on the server
-USER_EMAIL = "jasontbradshaw@gmail.com"
+USER_EMAIL = "bob@bobisthebest.com"
 
 # the repo to get data from
-REPO_DIR = "/Users/shira/codewithus"
+REPO_DIR = "/home/users/bob/git_repo"
 
 # name of the server to poll/push events to
 SERVER_NAME = "http://codewithus.heroku.com"
 
 # how often to poll the server for new updates from your subscriptions
 POLL_INTERVAL = 1
+
+# where face images are stored
+FACE_FOLDER = "faces"

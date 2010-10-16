@@ -98,7 +98,8 @@ class Poller:
         # TODO: refactor this into the EventBuilder class in git_event
         for event in jdata["events"]:
             new_event = git_event.Event(event["kind"], event["time"],
-                                        event["email"], event["data"])
+                                        event["email"], event["data"],
+                                        face_url=event["face_url"])
             result.append(new_event)
         
         return result
@@ -113,11 +114,17 @@ def main(args=sys.argv):
     try:
         while 1:
             
-            # show notifications for latest events
-            print "poll"
-            for event in p.poll():
+            # ensure we get some iterable thing from the poll
+            poll_data = p.poll()
+            poll_data = [] if poll_data is None else poll_data
+            
+            # parse all the events and display them
+            for event in poll_data:
+                title = "Title"
+                message = "Message!"
+                image = "codewithus.heroku.com/faces/default.jpg"
+                
                 if event.kind == "commit":
-                    # TODO: is the email correct here?
                     title = "Commit from %s:" % event.user_email
                     message = event.data["message"]
                 elif event.kind == "push":
@@ -125,9 +132,24 @@ def main(args=sys.argv):
                     message = "%s pushed to a repository." % event.user_email
                 elif event.kind == "checkout":
                     title = "Checkout from %s:" % event.user_email
-                    message = "%s issued a checkout." % event.user_email
+                    message = "Currently in branch '%s'." % event.data["active_branch"]
                 
-                n.notify(title, message)
+                # if we've been given some image url, save it
+                if event.face_url != "" and event.face_url != None:
+                    image = event.face_url
+                
+                # download the image file and save it to our cache
+                try:
+                    image_file = "faces/" + event.user_email
+                    with open(image_file, 'wb') as f:
+                        # write the image data we get from the server
+                        f.write(urllib.urlopen(image).read())
+                except Exception, e:
+                    # reset the image file if we failed somewhere
+                    image_file = None
+                    print e
+                
+                n.notify(title, message, image_file)
             
             # wait a bit before the next poll cycle
             time.sleep(config.POLL_INTERVAL)
