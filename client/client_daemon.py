@@ -5,13 +5,14 @@ import urllib2
 
 import Growl
 
+# settings
 POLL_INTERVAL = 1
 
 class Notifier:
     """
     Builds and displays a system notification.  Meant to be an
     abstraction from any platform-specific notification system (Growl,
-    GNotify, Windows baloons, etc.).
+    GNotify, Windows balloons, etc.).
     """
     
     def __init__(self, app_name):
@@ -22,7 +23,8 @@ class Notifier:
         Display a notification with the given title, message, and icon.
         """
         
-        pass
+        raise NotImplementedException(
+            "Notifiers must implement the 'notify' method!")
 
 class GrowlNotifier(Notifier):
     """
@@ -42,7 +44,7 @@ class GrowlNotifier(Notifier):
         Show a Growl notification popup.
         """
         
-        self.growler.notify("git-event", title, message)
+        self.growler.notify("git-event", title, message, icon=icon)
 
 def main(args=sys.argv):
     n = GrowlNotifier("CodeWithUs")
