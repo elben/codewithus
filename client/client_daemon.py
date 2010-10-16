@@ -109,8 +109,11 @@ class Poller:
 
 def main(args=sys.argv):
     
+    # load our config file
+    conf = config.load_config(args[1])
+    
     # create our utility objects
-    p = Poller(config.SERVER_NAME, config.USER_EMAIL)
+    p = Poller(conf["server_name"], conf["user_email"])
     n = GrowlNotifier("CodeWithUs")
     
     # loop, polling for new notifications
@@ -140,7 +143,7 @@ def main(args=sys.argv):
                     message = event.data["message"]
                 elif event.kind == "pull":
                     title = "Pull from %s:" % event.user_email
-                    message = "Puled into branch '%s'." % event.data["active_branch"]
+                    message = "Pulled into branch '%s'." % event.data["active_branch"]
                 
                 # download the image file and save its data
                 img_data = None
@@ -155,7 +158,7 @@ def main(args=sys.argv):
                 n.notify(title, message, icon_data=img_data)
             
             # wait a bit before the next poll cycle
-            time.sleep(config.POLL_INTERVAL)
+            time.sleep(conf["poll_interval"])
     
     except KeyboardInterrupt:
         print

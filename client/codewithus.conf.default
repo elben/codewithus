@@ -1,0 +1,6 @@
+{
+        "user_email": "bob@email.com",
+        "repo_dir": "/path/to/repo",
+        "server_name": "http://some.server.somewhere",
+        "poll_interval": 1
+}

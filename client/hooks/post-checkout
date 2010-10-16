@@ -1,4 +1,4 @@
 #!/bin/sh
 # sends a checkout event to the configured server.
 
-python client/send_event.py checkout
+python client/send_event.py /Users/shira/codewithus/client/codewithus.conf checkout
