@@ -1,4 +1,6 @@
 Codewithus::Application.routes.draw do
+  resources :checkouts
+
   resources :pushes
 
   resources :subscriptions
