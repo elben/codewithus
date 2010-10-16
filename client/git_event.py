@@ -12,7 +12,7 @@ class Event:
         self.timestamp = timestamp
         self.user_email = user_email
         
-        # a dict of event-type specific info (gets parsed by Sender)
+        # a dict of event-type specific info
         self.data = data
 
 class EventBuilder:
@@ -27,7 +27,7 @@ class EventBuilder:
     def build_push(self):
         raise NotImplementedException("Must implement push!")
 
-    def build_commit(self):
+    def build_commit(self, data=None):
         # get the commit we're going to operate on
         commit = self.repo.head.commit # latest commit for this repository
         

@@ -2,6 +2,7 @@ import sys
 import time
 import urllib
 import urllib2
+import json
 
 import Growl
 
@@ -66,31 +67,46 @@ class Poller:
         sorted least-recent to most-recent.
         """
         
+        # list of parsed events
         result = []
         
         # build the http 'get' request
-        url = self.server_name + self.subscription_url
-        data = urllib.urlencode({"email": self.user_email})
+        values = {
+            "email": self.user_email,
+            "showall": True, # debug for always getting data
+            }
         
-        # how we'll turn our data into events once again
-        eb = git_event.EventBuilder(config.REPO_NAME, config.USER_EMAIL)
+        url = self.server_name + self.subscription_url
+        data = urllib.urlencode(values)
         
         # build the request object and get the response data
         request = urllib2.Request(url, data)
         
         try:
             response = urllib2.urlopen(request)
-            print response.read()
+            
+            # get raw JSON data
+            rdata = response.read()
+            print rdata
+            
+            # turn it into native data
+            jdata = json.loads(rdata)
         except Exception, e:
             print e
             return
+        
+        # TODO: refactor this into the EventBuilder class in git_event
+        for event in jdata["events"]:
+            new_event = git_event.Event(event["kind"], event["time"],
+                                        event["email"], event["data"])
+            result.append(new_event)
         
         return result
 
 def main(args=sys.argv):
     
     # create our utility objects
-    p = Poller(config.SERVER_NAME)
+    p = Poller(config.SERVER_NAME, config.USER_EMAIL)
     n = GrowlNotifier("CodeWithUs")
     
     # loop, polling for new notifications
@@ -98,10 +114,7 @@ def main(args=sys.argv):
         while 1:
             
             # show notifications for latest events
-            for event in p.poll():
-                if event.type == "commit":
-                    title = "Commit from " + event.user + ":"
-                    message = event.data["message"]
+            print "poll"
             
             # wait a bit before the next poll cycle
             time.sleep(config.POLL_INTERVAL)
