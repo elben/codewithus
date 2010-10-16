@@ -115,6 +115,11 @@ def main(args=sys.argv):
             
             # show notifications for latest events
             print "poll"
+            for event in p.poll():
+                title = "Commit from %s:" % event.user_email
+                message = event.data["message"]
+                
+                n.notify(title, message)
             
             # wait a bit before the next poll cycle
             time.sleep(config.POLL_INTERVAL)
