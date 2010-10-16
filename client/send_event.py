@@ -30,14 +30,6 @@ class Sender:
         Sends our event to the server in a format it can understand.
         """
         
-        # TODO: remove test printing
-        print "Sending an event to the server..."
-        print "kind:", event.kind
-        print "user_email:", event.user_email
-        print "time:", event.timestamp
-        print "data:"
-        pprint(event.data)
-        
         # create the url parameters as a dict
         values = event.data
         values["email"] = event.user_email
