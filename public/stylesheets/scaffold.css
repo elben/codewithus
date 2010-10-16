@@ -151,11 +151,15 @@ div.floatfix {
   z-index: 10;
 }
 
-table#container tr:nth-child(odd) {
-  background-color: #fff;
+table.container td:nth-child(2) {
+  width: 100%;
 }
 
-table#container tr:nth-child(even) {
-  background-color: #f3f3f3;
+table.container tr:nth-child(odd) {
+  /*background-color: #fff;*/
+}
+
+table.container tr:nth-child(even) {
+  /*background-color: #f3f3f3;*/
 }
 

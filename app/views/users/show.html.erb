@@ -1,4 +1,3 @@
-
 <div class="usertop">
   <div class="face"><%= image_tag @face_url, :width => 60, :height => 60, :class => "face" %></div>
   <div class="title">Hi, <%= @user.name %>!</div>
@@ -9,14 +8,16 @@
 
 <% if @user.subscriptions.length > 0 %>
   <h2>Who I'm Following</h2>
-  <table>
+  <table class="container">
   <% for subscription in @user.subscriptions %>
     <tr>
       <td>
         <%= link_to(image_tag((subscription.subscribee.face_url.blank? ? "/images/faces/default.jpg" : subscription.subscribee.face_url), :width => 32, :height => 32, :class => 'smallface'), subscription.subscribee) %></td>
       <td>
-        <%= subscription.subscribee.name %>
+        <%= link_to(subscription.subscribee.name, subscription.subscribee) %>
         (<%= subscription.subscribee.email %>)
+      </td>
+      <td>
         <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
       </td>
     </tr>
@@ -25,7 +26,7 @@
 <% end %>
 
 <h2>Recommended Users</h2>
-<table>
+<table class="container">
 <% for user in @users %>
   <tr>
       <% if !@user.subscribees.include?(user) %>
@@ -33,8 +34,10 @@
         <%= link_to(image_tag((user.face_url.blank? ? "/images/faces/default.jpg" : user.face_url), :width => 32, :height => 32, :class => 'smallface'), user) %></td>
         </td>
         <td>
-          <%= user.name %>
+          <%= link_to user.name, user %>
           (<%= user.email %>)
+        </td>
+        <td>
           <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
         </td>
       <% end %>
