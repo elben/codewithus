@@ -1,4 +1,16 @@
 class SubscriptionsController < ApplicationController
+  def create
+    @user = User.find(params[:user_id])
+    @subscription = @user.subscriptions.build(:subscribee_id => params[:subscribee_id])
+    if @subscription.save
+      flash[:notice] = "Subscription saved!"
+      redirect_to edit_user_path(@user)
+    else
+      flash[:notice] = "Failed to subscribe."
+      redirect_to edit_user_path(@user)
+    end
+  end
+
   # GET /subscriptions
   # GET /subscriptions.xml
   def index
@@ -25,6 +37,7 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions/new.xml
   def new
     @subscription = Subscription.new
+    @users = Users.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,7 +52,7 @@ class SubscriptionsController < ApplicationController
 
   # POST /subscriptions
   # POST /subscriptions.xml
-  def create
+  def createold
     @subscription = Subscription.new(params[:subscription])
 
     respond_to do |format|
@@ -76,8 +89,8 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(subscriptions_url) }
-      format.xml  { head :ok }
+      format.html { redirect_to edit_user_path(@subscription.user) }
+      #format.xml  { head :ok }
     end
   end
 end

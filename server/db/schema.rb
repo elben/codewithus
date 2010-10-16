@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016013238) do
+ActiveRecord::Schema.define(:version => 20101016030521) do
 
   create_table "commits", :force => true do |t|
     t.string   "author"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20101016013238) do
   end
 
   create_table "subscriptions", :force => true do |t|
-    t.integer  "subr"
-    t.integer  "sube"
+    t.integer  "user_id"
+    t.integer  "subscribee_id"
     t.integer  "latest"
     t.datetime "created_at"
     t.datetime "updated_at"
