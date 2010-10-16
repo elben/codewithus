@@ -32,6 +32,19 @@ class EventsController < ApplicationController
     render 'error'
   end
 
+  def pull
+    events = []
+    r = {:events => events}
+
+    for commit in Commit.all
+      h = {:type => "commit"}
+      h.merge!(commit.attributes)
+      events << h
+    end
+
+    render :json => r
+  end
+
   # GET /events
   # GET /events.xml
   def index
