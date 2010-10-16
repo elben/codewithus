@@ -110,7 +110,7 @@ class Poller:
 def main(args=sys.argv):
     
     # load our config file
-    conf = config.load_config("codewithus.conf")
+    conf = config.load_config("~/codewithus.conf")
     
     # create our utility objects
     p = Poller(conf["server_name"], conf["user_email"])

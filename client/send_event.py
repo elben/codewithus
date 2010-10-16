@@ -53,7 +53,7 @@ def main(args=sys.argv):
         return
     
     # load our config file
-    conf = config.load_config("codewithus.conf")
+    conf = config.load_config("~/codewithus.conf")
     
     # build events from the specified repository
     builder = git_event.EventBuilder(conf["repo_dir"], conf["user_email"])
