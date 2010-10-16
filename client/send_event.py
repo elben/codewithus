@@ -14,7 +14,7 @@ SERVER_ADDRESS = "http://codewithus.heroku.com"
 class Event:
     """
     Represents an event that we can push to the server.  Gets created
-    and returned by the send_* functions, and sent to the actual server
+    and returned by the build_* functions, and sent to the actual server
     by a Sender object.
     """
     
@@ -61,7 +61,7 @@ class Sender:
         url = self.server_address + self.event_post_url
         data = urllib.urlencode(values)
         headers = {"User-Agent": self.user_agent}
-
+        
         # build the request object and get the response data
         request = urllib2.Request(url, data, headers)
         
@@ -89,7 +89,7 @@ def build_commit(repo):
     #  files: number of files modified
     data = {
              "active_branch": repo.active_branch.name,
-             "hash": commit.hexsha,
+             "commit_hash": commit.hexsha,
              "author_email": commit.author.email,
              "message": commit.message,
              "deletions": commit.stats.total["deletions"],
@@ -110,11 +110,12 @@ def main(args=sys.argv):
     Parse the args, create the event object, then send it to the server.
     """
     
-    repo = git.Repo(REPO_DIR)
-    
     if len(args) < 2:
         print "ERROR: No event type specified."
         return
+    
+    # 'connect' to our specified repository
+    repo = git.Repo(REPO_DIR)
     
     # the type of event we're creating
     command = args[1]
