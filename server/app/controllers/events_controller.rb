@@ -1,4 +1,10 @@
 class EventsController < ApplicationController
+  skip_before_filter :verify_authenticity_token 
+
+  def push
+    render 'test'
+  end
+
   # GET /events
   # GET /events.xml
   def index
