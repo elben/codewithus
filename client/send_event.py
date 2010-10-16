@@ -8,11 +8,6 @@ from pprint import pprint
 import git_event
 import config
 
-# user settings
-REPO_DIR = "/Users/shira/codewithus"
-USER_EMAIL = "jasontbradshaw@gmail.com"
-SERVER_ADDRESS = "http://codewithus.heroku.com"
-
 class Sender:
     """
     Sends an event to the specified remote server.
