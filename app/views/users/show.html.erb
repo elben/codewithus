@@ -2,6 +2,7 @@
 
 <h1>Hi, <%= @user.name %>!</h1>
 
+<%= link_to 'Back', users_path %><br/>
 <%= link_to 'Edit', edit_user_path(@user) %>
 
 <h2>Subscriptions</h2>
@@ -24,4 +25,3 @@
   <% end %>
 <% end %>
 
-<%= link_to 'Back', users_path %>

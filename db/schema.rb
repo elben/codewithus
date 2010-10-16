@@ -10,14 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016043422) do
+ActiveRecord::Schema.define(:version => 20101016053750) do
 
   create_table "commits", :force => true do |t|
-    t.string   "author"
+    t.string   "author_email"
     t.text     "message"
     t.string   "hash"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "active_branch"
+    t.integer  "files"
+    t.integer  "insertions"
+    t.integer  "deletions"
+    t.integer  "lines"
   end
 
   create_table "events", :force => true do |t|
