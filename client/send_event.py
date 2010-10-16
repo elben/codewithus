@@ -73,11 +73,11 @@ class Sender:
         except Exception, e:
             print e
             return
-        
-def report_push():
+
+def build_push():
     return "push!"
 
-def report_commit():
+def build_commit():
     # get the commit we're going to operate on
     commit = REPO.head.commit # latest commit for this repository
     
@@ -103,10 +103,10 @@ def report_commit():
     
     return Event("commit", commit.committed_date, USER, data)
 
-def report_branch():
+def build_branch():
     return "branch!"
 
-def report_checkout():
+def build_checkout():
     return "checkout!"
 
 def main(args=sys.argv):
@@ -124,13 +124,13 @@ def main(args=sys.argv):
     # switch on command type
     event = None
     if command == "push":
-        event = report_push()
+        event = build_push()
     elif command == "commit":
-        event = report_commit()
+        event = build_commit()
     elif command == "branch":
-        event = report_branch()
+        event = build_branch()
     elif command == "checkout":
-        event = report_checkout()
+        event = build_checkout()
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
         return
