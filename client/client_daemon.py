@@ -118,7 +118,7 @@ def main(args=sys.argv):
             for event in p.poll():
                 if event.kind == "commit":
                     # TODO: is the email correct here?
-                    title = "Commit from %s:" % event.data["author_email"]
+                    title = "Commit from %s:" % event.user_email
                     message = event.data["message"]
                 elif event.kind == "push":
                     title = "Push from %s:" % event.user_email
