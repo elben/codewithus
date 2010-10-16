@@ -39,6 +39,8 @@ class Sender:
         
         try:
             response = urllib2.urlopen(request)
+            
+            # TODO: remove test printing!
             print response.read()
         except Exception, e:
             print e
