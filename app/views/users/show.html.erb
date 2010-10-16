@@ -1,11 +1,10 @@
 <h1>Hi, <%= @user.name %>!</h1>
 
-<%= link_to 'Back', users_path %><br/>
-<%= link_to 'Edit', edit_user_path(@user) %>
+<%= link_to "Edit #{h @user.name}", edit_user_path(@user) %><br/>
+<%= link_to 'Back to Users', users_path %>
 
-<h2>Subscriptions</h2>
 <% if @user.subscriptions.length > 0 %>
-  <h3>Who I'm Following</h3>
+  <h2>Who I'm Following</h2>
   <% for subscription in @user.subscriptions %>
     <%= subscription.subscribee.name %>
     (<%= subscription.subscribee.email %>)
@@ -13,7 +12,7 @@
   <% end %>
 <% end %>
 
-<h3>Recommended Users</h3>
+<h2>Recommended Users</h2>
 <% for user in @users %>
   <% if !@user.subscribees.include?(user) %>
     <%= user.name %>
