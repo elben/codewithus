@@ -45,11 +45,12 @@ class GrowlNotifier(Notifier):
         self.growler.notify("git-event", title, message)
 
 def main(args=sys.argv):
+    n = GrowlNotifier("CodeWithUs")
     
     # loop, polling for new notifications
     try:
         while 1:
-            print "Polling..."
+            n.notify("Polling", "...")
             time.sleep(POLL_INTERVAL)
     except KeyboardInterrupt:
         print
