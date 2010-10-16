@@ -77,7 +77,6 @@ class EventsController < ApplicationController
       events = Event.where(["user_id = ? AND id > ?", sub.subscribee.id, showall ? 0 : latest])
       next if events.length == 0
 
-      # TODO remove events that are too old (e.g. after 5 minutes)
       total_events += events
 
       # mark these grabbed events as old
@@ -103,6 +102,11 @@ class EventsController < ApplicationController
       elsif event.kind == "pull"
         real_event = Pull.find(event.data_id)
       end
+
+      # Too much time (5 seconds) have passed, so don't send
+      # these events
+      next if event.created_at < Time.now - 5
+
       h = {:kind => event.kind, :time => event.time, :email => event.user.email,
         :face_url => (event.user.face_url.blank? ? "http://codewithus.heroku.com/images/faces/default.jpg" : event.user.face_url),
         :data => real_event.attributes}
