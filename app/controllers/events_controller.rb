@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 
     if type == "commit"
       commit = Commit.new
-      #commit.author_email = params[:author_email]
+      commit.author_email = params[:author_email]
       #commit.message = params[:message]
       #commit.hash = params[:hash]
       #commit.active_branch = params[:active_branch]
