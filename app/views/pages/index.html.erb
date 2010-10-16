@@ -1,2 +1,7 @@
 <p>Hi! <i>Code With Us</i> makes coding a collaborative, living session, where you can non-intrusively find out what your teammates are working on right now.</p>
 <p>Getting started is easy. Just <%= link_to "create a user", new_user_path %>!</p>
+
+<h2>Some of our users</h2>
+<% @users.each do |user| %>
+  <%= link_to(image_tag((user.face_url.blank? ? '/images/faces/default.jpg' : user.face_url), :width => 64, :height => 64, :class => 'smallface'), user, :title => h(user.name)) %>
+<% end %>
