@@ -8,8 +8,7 @@ from pprint import pprint
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
 USER = "jasontbradshaw@gmail.com"
-SERVER_IP = "127.0.0.1"
-SERVER_PORT = 5000
+SERVER_ADDRESS = "127.0.0.1:5000"
 
 # internal settings
 REPO = git.Repo(REPO_DIR)
@@ -34,9 +33,12 @@ class Sender:
     Sends an event to the specified remote server.
     """
     
-    def __init__(self, server_ip, server_port):
-        self.server_ip = server_ip
-        self.server_port = server_port
+    def __init__(self, server_address):
+        self.server_address = server_address
+        
+        # basic info for our sender
+        self.user_agent = "CodeWithMe"
+        self.base_url = "/event/"
     
     def send_event(self, event):
         """
@@ -112,7 +114,7 @@ def main(args=sys.argv):
         return
     
     # send our event to the server
-    sender = Sender(SERVER_IP, SERVER_PORT)
+    sender = Sender(SERVER_ADDRESS)
     if event is not None:
         sender.send_event(event)
 
