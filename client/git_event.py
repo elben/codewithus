@@ -50,7 +50,7 @@ class EventBuilder:
         #  insertions: number of lines inserted
         #  files: number of files modified
         data = {
-            "active_branch": self.repo.active_branch.name,
+            "active_branch": self.get_active_branch(),
             "commit_hash": commit.hexsha,
             "author_email": commit.author.email,
             "message": commit.message,
@@ -67,16 +67,22 @@ class EventBuilder:
         Tell what branch we're on after we checkout.
         """
         
-        # active_brach is a property that sometimes doesn't exist. it
-        # tries to return 'self.head.reference', and some nodes in the
-        # repo don't have this property and throw a TypeError.
+        data = {
+            "active_branch": self.get_active_branch(),
+            }
+        
+        return Event("checkout", int(time.time()), self.user_email, data)
+    
+    def get_active_branch(self):
+        """
+        active_brach is a property that sometimes doesn't exist. it
+        tries to return 'self.head.reference', and some nodes in the
+        repo don't have this property and throw a TypeError.
+        """
+        
         try:
             ab = self.repo.active_branch.name
         except TypeError:
             ab = "(no branch)"
         
-        data = {
-            "active_branch": ab,
-            }
-        
-        return Event("checkout", int(time.time()), self.user_email, data)
+        return ab
