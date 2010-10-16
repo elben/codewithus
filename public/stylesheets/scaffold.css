@@ -38,6 +38,7 @@ div.toolbar {
   margin-right: auto;
   padding: 20px;
   line-height: 0;
+  border-bottom: 8px solid #00B4FF;
 }
 
 div.toolbar a {
