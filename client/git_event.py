@@ -67,10 +67,16 @@ class EventBuilder:
         Tell what branch we're on after we checkout.
         """
         
-        print type(self.repo.active_branch)
+        # active_brach is a property that sometimes doesn't exist. it
+        # tries to return 'self.head.reference', and some nodes in the
+        # repo don't have this property and throw a TypeError.
+        try:
+            ab = self.repo.active_branch.name
+        except TypeError:
+            ab = "(no branch)"
         
         data = {
-            "active_branch": self.repo.active_branch,
+            "active_branch": ab,
             }
         
         return Event("checkout", int(time.time()), self.user_email, data)
