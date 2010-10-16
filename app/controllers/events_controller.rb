@@ -92,7 +92,7 @@ class EventsController < ApplicationController
         real_event = Push.find(event.data_id)
       elsif event.kind == "checkout"
         real_event = Checkout.find(event.data_id)
-      elseif event.kind == "merge"
+      elsif event.kind == "merge"
         real_event = Merge.find(event.data_id)
       end
       h = {:kind => event.kind, :time => event.time, :email => event.user.email,
