@@ -69,6 +69,8 @@ def main(args=sys.argv):
         event = builder.build_commit()
     elif command == "checkout":
         event = builder.build_checkout()
+    elif command == "merge":
+        event = builder.build_merge()
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
         return
