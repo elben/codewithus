@@ -39,7 +39,7 @@ class Sender:
         # build the http request
         url = self.server_name + self.event_post_url
         data = urllib.urlencode(values)
-            
+        
         # build the request object and get the response data
         request = urllib2.Request(url, data)
         
