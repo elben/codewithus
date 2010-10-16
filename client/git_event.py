@@ -73,6 +73,17 @@ class EventBuilder:
         
         return Event("checkout", int(time.time()), self.user_email, data)
     
+    def build_pull(self):
+        """
+        Tell what branch we're on before we pull.
+        """
+        
+        data = {
+            "active_branch": self.get_active_branch(),
+            }
+        
+        return Event("pull", int(time.time()), self.user_email, data)
+    
     def build_merge(self):
         """
         Send the merge message that was written/generated.

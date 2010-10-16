@@ -139,6 +139,9 @@ def main(args=sys.argv):
                 elif event.kind == "merge":
                     title = "Merge from %s:" % event.user_email
                     message = event.data["message"]
+                elif event.kind == "pull":
+                    title = "Pull from %s:" % event.user_email
+                    message = "Puled into branch '%s'." % event.data["active_branch"]
                 
                 # download the image file and save its data
                 img_data = None
