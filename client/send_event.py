@@ -8,7 +8,7 @@ from pprint import pprint
 
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
-USER = "jasontbradshaw@gmail.com"
+USER_EMAIL = "jasontbradshaw@gmail.com"
 SERVER_ADDRESS = "http://codewithus.heroku.com"
 
 class Event:
@@ -18,10 +18,10 @@ class Event:
     by a Sender object.
     """
     
-    def __init__(self, type, timestamp, user, data):
+    def __init__(self, type, timestamp, user_email, data):
         self.type = type
         self.timestamp = timestamp
-        self.user = user
+        self.user_email = user_email
         
         # a dict of event-type specific info (gets parsed by Sender)
         self.data = data
@@ -46,14 +46,14 @@ class Sender:
         # TODO: remove test printing
         print "Sending an event to the server..."
         print "type:", event.type
-        print "user:", event.user
-        print "timestamp:", event.timestamp
+        print "user_email:", event.user_email
+        print "time:", event.timestamp
         print "data:"
         pprint(event.data)
         
         # create the url parameters as a dict
         values = event.data
-        values["email"] = event.user
+        values["email"] = event.user_email
         values["time"] = event.timestamp
         values["type"] = event.type
         
@@ -97,7 +97,7 @@ def build_commit(repo):
              "files": commit.stats.total["files"],
            }
     
-    return Event("commit", commit.committed_date, USER, data)
+    return Event("commit", commit.committed_date, USER_EMAIL, data)
 
 def build_branch(repo):
     return "branch!"
