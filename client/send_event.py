@@ -72,38 +72,46 @@ class Sender:
             print e
             return
 
-def build_push(repo):
-    return "push!"
-
-def build_commit(repo):
-    # get the commit we're going to operate on
-    commit = repo.head.commit # latest commit for this repository
+class EventBuilder:
+    """
+    Builds and returns correctly formatted events.
+    """
     
-    # all the data we'll need for this commit:
-    #  active_branch: the current branch
-    #  author_email: the email of the author of the commit
-    #  hash: the sha hash (in hex) of the commit
-    #  message: the commit message
-    #  deletions: number of lines deleted
-    #  insertions: number of lines inserted
-    #  files: number of files modified
-    data = {
-             "active_branch": repo.active_branch.name,
-             "commit_hash": commit.hexsha,
-             "author_email": commit.author.email,
-             "message": commit.message,
-             "deletions": commit.stats.total["deletions"],
-             "insertions": commit.stats.total["insertions"],
-             "files": commit.stats.total["files"],
-           }
+    def __init__(self, repo):
+        self.repo = repo
     
-    return Event("commit", commit.committed_date, USER_EMAIL, data)
+    def build_push(self):
+        raise NotImplementedException("Must implement push!")
 
-def build_branch(repo):
-    return "branch!"
+    def build_commit(self):
+        # get the commit we're going to operate on
+        commit = self.repo.head.commit # latest commit for this repository
+        
+        # all the data we'll need for this commit:
+        #  active_branch: the current branch
+        #  author_email: the email of the author of the commit
+        #  hash: the sha hash (in hex) of the commit
+        #  message: the commit message
+        #  deletions: number of lines deleted
+        #  insertions: number of lines inserted
+        #  files: number of files modified
+        data = {
+            "active_branch": self.repo.active_branch.name,
+            "commit_hash": commit.hexsha,
+            "author_email": commit.author.email,
+            "message": commit.message,
+            "deletions": commit.stats.total["deletions"],
+            "insertions": commit.stats.total["insertions"],
+            "files": commit.stats.total["files"],
+            }
+        
+        return Event("commit", commit.committed_date, USER_EMAIL, data)
 
-def build_checkout(repo):
-    return "checkout!"
+    def build_branch(self):
+        raise NotImplementedException("Must implement branch!")
+
+    def build_checkout(self):
+        raise NotImplementedException("Must implement checkout!")
 
 def main(args=sys.argv):
     """
@@ -114,8 +122,8 @@ def main(args=sys.argv):
         print "ERROR: No event type specified."
         return
     
-    # 'connect' to our specified repository
-    repo = git.Repo(REPO_DIR)
+    # build events from the specified repository
+    builder = EventBuilder(git.Repo(REPO_DIR))
     
     # the type of event we're creating
     command = args[1]
@@ -123,13 +131,13 @@ def main(args=sys.argv):
     # switch on command type
     event = None
     if command == "push":
-        event = build_push(repo)
+        event = builder.build_push()
     elif command == "commit":
-        event = build_commit(repo)
+        event = builder.build_commit()
     elif command == "branch":
-        event = build_branch(repo)
+        event = builder.build_branch()
     elif command == "checkout":
-        event = build_checkout(repo)
+        event = builder.build_checkout()
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
         return
