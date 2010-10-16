@@ -3,8 +3,6 @@ import urllib2
 import sys
 import time
 
-from pprint import pprint
-
 import git_event
 import config
 
