@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Hi, <%= @user.username %>!</h1>
+<h1>Hi, <%= @user.name %>!</h1>
 
 <%= link_to 'Edit', edit_user_path(@user) %>
 
@@ -8,14 +8,18 @@
 <% if @user.subscriptions.length > 0 %>
   <h3>Who I'm Following</h3>
   <% for subscription in @user.subscriptions %>
-    <%= subscription.subscribee.username %> <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
+    <%= subscription.subscribee.name %>
+    (<%= subscription.subscribee.email %>)
+    <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
   <% end %>
 <% end %>
 
 <h3>Recommended Users</h3>
 <% for user in @users %>
   <% if !@user.subscribees.include?(user) %>
-    <%= user.username %> <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
+    <%= user.name %>
+    (<%= user.email %>)
+    <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
     <br />
   <% end %>
 <% end %>
