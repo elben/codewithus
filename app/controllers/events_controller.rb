@@ -11,7 +11,7 @@ class EventsController < ApplicationController
       commit = Commit.new
       commit.author_email = params[:author_email]
       commit.message = params[:message]
-      commit.hash = params[:hash]
+      commit.commit_hash = params[:commit_hash]
       commit.active_branch = params[:active_branch]
       commit.files = params[:files].to_i
       commit.insertions = params[:insertions].to_i
