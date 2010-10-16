@@ -5,6 +5,11 @@ body, p, ol, ul, td {
   font-size:   13px;
   line-height: 18px;
 }
+  
+h1 {
+  font-family: 'Yanone Kaffeesatz', arial, serif;
+  font-size: 60px;
+}
 
 pre {
   background-color: #eee;
@@ -65,4 +70,19 @@ div.main {
 #error_explanation ul li {
   font-size: 12px;
   list-style: square;
+}
+
+.flash {
+  /* for a floating flash message (for jQuery) */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99%;
+  text-align: center;
+
+  padding: 4px;
+  background-color: #eee;
+  border-bottom: 1px solid #666;
+
+  z-index: 10;
 }
