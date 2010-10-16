@@ -122,7 +122,6 @@ def main(args=sys.argv):
             for event in poll_data:
                 title = "Title"
                 message = "Message!"
-                image = "codewithus.heroku.com/faces/default.jpg"
                 
                 if event.kind == "commit":
                     title = "Commit from %s:" % event.user_email
@@ -134,16 +133,16 @@ def main(args=sys.argv):
                     title = "Checkout from %s:" % event.user_email
                     message = "Currently in branch '%s'." % event.data["active_branch"]
                 
-                # if we've been given some image url, save it
-                if event.face_url != "" and event.face_url != None:
-                    image = event.face_url
-                
-                # download the image file and save it to our cache
+                # download the image file and save it locally
                 try:
-                    image_file = "faces/" + event.user_email
+                    # where the image gets saved locally
+                    image_file = config.FACE_FOLDER + event.user_email
+                    
+                    # write the image data to our local file
                     with open(image_file, 'wb') as f:
                         # write the image data we get from the server
-                        f.write(urllib.urlopen(image).read())
+                        urllib.urlretrieve(event.face_url, f)
+                    
                 except Exception, e:
                     # reset the image file if we failed somewhere
                     image_file = None
