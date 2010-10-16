@@ -16,6 +16,7 @@ class EventsController < ApplicationController
       commit.files = params[:files].to_i
       commit.insertions = params[:insertions].to_i
       commit.deletions = params[:deletions].to_i
+      commit.lines = 0
 
       if commit.save
         render :json => {:status => "OK"}
