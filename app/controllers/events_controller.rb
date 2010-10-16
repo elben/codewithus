@@ -85,7 +85,9 @@ class EventsController < ApplicationController
       elsif event.kind == "push"
         real_event = Push.find(event.data_id)
       end
-      h = {:kind => event.kind, :time => event.time, :email => event.user.email, :data => real_event.attributes}
+      h = {:kind => event.kind, :time => event.time, :email => event.user.email,
+        :face_url => (event.user.face_url.blank? ? "http://codewithus.heroku.com/images/faces/default.jpg" : event.user.face_url),
+        :data => real_event.attributes}
       e << h
     end
 
