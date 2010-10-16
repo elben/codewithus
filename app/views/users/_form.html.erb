@@ -11,20 +11,31 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :face_url, "URL to image" %><br />
-    <%= f.text_field :face_url %>
-  </div>
+  <table class="signup">
+    <div class="field">
+      <tr>
+          <td>Name</td>
+          <td><%= f.text_field :name, :sign => 40, :class => "testtest" %></td>
+      </tr>
+    </div>
+    <div class="field">
+      <tr>
+        <td>Email</td>
+        <td><%= f.text_field :email, :sign => 40 %></td>
+      </tr>
+    </div>
+    <div class="field">
+      <tr>
+        <td>Profile Image URL</td>
+        <td><%= f.text_field :face_url, :size => 80 %></td>
+      </tr>
+    </div>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="actions">
+      <tr>
+        <td></td>
+        <td><%= f.submit %></td>
+      </tr>
+    </div>
+  </table>
 <% end %>
