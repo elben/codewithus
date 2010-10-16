@@ -5,27 +5,41 @@ class EventsController < ApplicationController
     # TODO do work here
     email = params[:email]
     time = params[:time]
-    type = params[:type]
+    kind = params[:kind]
 
-    if type == "commit"
-      commit = Commit.new
-      commit.author_email = params[:author_email]
-      commit.message = params[:message]
-      commit.commit_hash = params[:commit_hash]
-      commit.active_branch = params[:active_branch]
-      commit.files = params[:files].to_i
-      commit.insertions = params[:insertions].to_i
-      commit.deletions = params[:deletions].to_i
+    user = User.find_by_email(email)
 
-      if commit.save
+    if user.nil?
+      render :json => {:status => "Error", :message => "Invalid user!", :payload => params}
+      return
+    end
+
+    real_event = nil
+    if kind == "commit"
+      real_event = Commit.new
+      real_event.author_email = params[:author_email]
+      real_event.message = params[:message]
+      real_event.commit_hash = params[:commit_hash]
+      real_event.active_branch = params[:active_branch]
+      real_event.files = params[:files].to_i
+      real_event.insertions = params[:insertions].to_i
+      real_event.deletions = params[:deletions].to_i
+
+    end
+
+    if real_event.save
+      event = Event.new
+      event.kind = kind
+      event.user_id = user.id
+      event.data_id = real_event.id
+
+      if event.save
         render :json => {:status => "OK"}
-        return
-      else
-        render :json => {:status => "Error", :message => "Failed to create new commit event!", :payload => params}
         return
       end
     end
-    render :json => {:status => "Event not implemented.", :payload => params}
+
+    render :json => {:status => "Error", :message => "Failed to create event!", :payload => params}
   end
 
   def pusherror
@@ -33,16 +47,45 @@ class EventsController < ApplicationController
   end
 
   def pull
-    events = []
-    r = {:events => events}
-
-    for commit in Commit.all
-      h = {:type => "commit"}
-      h.merge!(commit.attributes)
-      events << h
+    user = User.find_by_email(params[:email])
+    if !user
+      render :json => {:status => "Error", :message => "No user found!", :payload => params}
+      return
     end
 
-    render :json => r
+    total_events = []
+
+    subs = Subscription.find_all_by_user_id(user.id)
+    for sub in subs
+      # get new events from the users we are subscribed to
+      latest = sub.latest.to_i
+      events = Event.where(["user_id = ? AND id > ?", sub.subscribee.id, latest])
+      next if events.length == 0
+
+      # TODO remove events that are too old (e.g. after 5 minutes)
+      total_events += events
+
+      # mark these grabbed events as old
+      sub.latest = events[-1].id
+      if !sub.save
+        render :json => {:status => "Error", :message => "Failed to save subscription latest!", :payload => params}
+        return
+      end
+    end
+
+    e = []
+    ret = {:events => e}
+
+    for event in total_events
+      if event.kind == "commit"
+        real_event = Commit.find(event.data_id)
+      end
+      h = {:kind => event.kind}
+      h.merge!(real_event.attributes)
+      e << h
+    end
+
+    render :json => ret
   end
 
   # GET /events

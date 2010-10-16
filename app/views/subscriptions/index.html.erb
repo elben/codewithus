@@ -2,8 +2,8 @@
 
 <table>
   <tr>
-    <th>Subr</th>
-    <th>Sube</th>
+    <th>User</th>
+    <th>Subscribee</th>
     <th>Latest</th>
     <th></th>
     <th></th>
@@ -12,8 +12,8 @@
 
 <% @subscriptions.each do |subscription| %>
   <tr>
-    <td><%= subscription.subr %></td>
-    <td><%= subscription.sube %></td>
+    <td><%= subscription.user.email %></td>
+    <td><%= subscription.subscribee.email %></td>
     <td><%= subscription.latest %></td>
     <td><%= link_to 'Show', subscription %></td>
     <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>

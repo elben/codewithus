@@ -4,10 +4,10 @@ class SubscriptionsController < ApplicationController
     @subscription = @user.subscriptions.build(:subscribee_id => params[:subscribee_id])
     if @subscription.save
       flash[:notice] = "Subscription saved!"
-      redirect_to edit_user_path(@user)
+      redirect_to @user
     else
       flash[:notice] = "Failed to subscribe."
-      redirect_to edit_user_path(@user)
+      redirect_to @user
     end
   end
 
@@ -89,7 +89,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to edit_user_path(@subscription.user) }
+      format.html { redirect_to @subscription.user }
       #format.xml  { head :ok }
     end
   end
