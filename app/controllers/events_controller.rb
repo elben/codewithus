@@ -85,7 +85,7 @@ class EventsController < ApplicationController
       elsif event.kind == "push"
         real_event = Push.find(event.data_id)
       end
-      h = {:kind => event.kind, :time => event.time, :email => user.email, :data => real_event.attributes}
+      h = {:kind => event.kind, :time => event.time, :email => event.user.email, :data => real_event.attributes}
       e << h
     end
 
