@@ -98,7 +98,8 @@ class Poller:
         # TODO: refactor this into the EventBuilder class in git_event
         for event in jdata["events"]:
             new_event = git_event.Event(event["kind"], event["time"],
-                                        event["email"], event["data"])
+                                        event["email"], event["data"],
+                                        face_url=event["face_url"])
             result.append(new_event)
         
         return result
@@ -116,8 +117,12 @@ def main(args=sys.argv):
             # show notifications for latest events
             print "poll"
             for event in p.poll():
+                
+                title = "Title"
+                message = "Message!"
+                image = "codewithus.heroku.com/faces/default.jpg"
+                
                 if event.kind == "commit":
-                    # TODO: is the email correct here?
                     title = "Commit from %s:" % event.user_email
                     message = event.data["message"]
                 elif event.kind == "push":
@@ -125,9 +130,23 @@ def main(args=sys.argv):
                     message = "%s pushed to a repository." % event.user_email
                 elif event.kind == "checkout":
                     title = "Checkout from %s:" % event.user_email
-                    message = "%s issued a checkout." % event.user_email
+                    message = "Currently in branch '%s'." % event.data["active_branch"]
+                    
+                if event.face_url != "":
+                    image = event.face_url
                 
-                n.notify(title, message)
+                # download the image file and save it to our cache
+                try:
+                    image_file = "face_cache/" + event.user_email
+                    with open(image_file, 'wb') as f:
+                        # write the image data we get from the server
+                        f.write(urllib.urlopen(image).read())
+                except Exception, e:
+                    # reset the image file if we failed to download it
+                    image_file = None
+                    print e
+                
+                n.notify(title, message, image_file)
             
             # wait a bit before the next poll cycle
             time.sleep(config.POLL_INTERVAL)

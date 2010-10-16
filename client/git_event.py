@@ -8,10 +8,11 @@ class Event:
     by a Sender object.
     """
     
-    def __init__(self, kind, timestamp, user_email, data):
+    def __init__(self, kind, timestamp, user_email, data, face_url=None):
         self.kind = kind
         self.timestamp = timestamp
         self.user_email = user_email
+        self.face_url = face_url
         
         # a dict of event-type specific info
         self.data = data
