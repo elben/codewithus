@@ -1,4 +1,4 @@
 #!/bin/sh
 # sends a commit event to the configured server.
 
-python client/send_event.py commit
+python client/send_event.py /Users/shira/codewithus/client/codewithus.conf commit

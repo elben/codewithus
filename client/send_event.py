@@ -48,18 +48,18 @@ def main(args=sys.argv):
     Parse the args, create the event object, then send it to the server.
     """
     
-    if len(args) < 2:
+    if len(args) < 3:
         print "ERROR: No event type specified."
         return
     
     # load our config file
-    conf = config.load_config("~/codewithus.conf")
+    conf = config.load_config(args[1]))
     
     # build events from the specified repository
     builder = git_event.EventBuilder(conf["repo_dir"], conf["user_email"])
     
     # the type of event we're creating
-    command = args[1]
+    command = args[2]
     
     # switch on command type
     event = None
