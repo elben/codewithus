@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subr: 1
+  sube: 1
+  latest: 1
+
+two:
+  subr: 1
+  sube: 1
+  latest: 1
