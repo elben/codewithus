@@ -25,8 +25,16 @@ class EventBuilder:
         self.user_email = user_email
     
     def build_push(self):
-        raise NotImplementedException("Must implement push!")
-
+        """
+        Pushes are relatively spartan since we don't know much about
+        them.
+        """
+        
+        # TODO: get remote pushed to and send it in data
+        data = {}
+        
+        return Event("push", int(time.time()), self.user_email, data)
+    
     def build_commit(self, data=None):
         # get the commit we're going to operate on
         commit = self.repo.head.commit # latest commit for this repository
@@ -51,9 +59,14 @@ class EventBuilder:
         
         return Event("commit", commit.committed_date,
                      self.user_email, data)
-
-    def build_branch(self):
-        raise NotImplementedException("Must implement branch!")
-
+    
     def build_checkout(self):
-        raise NotImplementedException("Must implement checkout!")
+        """
+        Tell what branch we're on after we checkout.
+        """
+        
+        data = {
+            "active_branch": self.repo.active_branch,
+            }
+        
+        return Event("checkout", int(time.time()), self.user_email, data)

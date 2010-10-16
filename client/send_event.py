@@ -3,15 +3,8 @@ import urllib2
 import sys
 import time
 
-from pprint import pprint
-
 import git_event
 import config
-
-# user settings
-REPO_DIR = "/Users/shira/codewithus"
-USER_EMAIL = "jasontbradshaw@gmail.com"
-SERVER_ADDRESS = "http://codewithus.heroku.com"
 
 class Sender:
     """
@@ -30,7 +23,8 @@ class Sender:
         Sends our event to the server in a format it can understand.
         """
         
-        # create the url parameters as a dict
+        # create the url parameters as a dict starting with the data
+        # it already contains.
         values = event.data
         values["email"] = event.user_email
         values["time"] = event.timestamp
@@ -39,7 +33,7 @@ class Sender:
         # build the http request
         url = self.server_name + self.event_post_url
         data = urllib.urlencode(values)
-            
+        
         # build the request object and get the response data
         request = urllib2.Request(url, data)
         
@@ -71,8 +65,6 @@ def main(args=sys.argv):
         event = builder.build_push()
     elif command == "commit":
         event = builder.build_commit()
-    elif command == "branch":
-        event = builder.build_branch()
     elif command == "checkout":
         event = builder.build_checkout()
     else:
