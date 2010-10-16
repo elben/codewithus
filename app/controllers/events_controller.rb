@@ -10,8 +10,8 @@ class EventsController < ApplicationController
     if type == "commit"
       commit = Commit.new
       commit.author_email = params[:author_email]
-      #commit.message = params[:message]
-      #commit.hash = params[:hash]
+      commit.message = params[:message]
+      commit.hash = params[:hash]
       #commit.active_branch = params[:active_branch]
       #commit.files = params[:files] ? params[:files].to_i : 0
       #commit.insertions = params[:insertions] ? params[:insertions].to_i : 0
