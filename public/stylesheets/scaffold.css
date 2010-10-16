@@ -21,6 +21,7 @@ a {
   color: #00B4FF;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
@@ -28,6 +29,39 @@ a:hover {
 div.field, div.actions {
   margin-bottom: 10px;
 }
+
+div.toolbar {
+  width: 600px;
+  background-color: #333;
+  color: #999;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  line-height: 0;
+  border-bottom: 8px solid #00B4FF;
+}
+
+div.toolbar a {
+  color: #999;
+}
+
+div.toolbar a:hover {
+  text-decoration: underline;
+}
+
+div.toolbar .title {
+  font-family: 'Yanone Kaffeesatz', arial, serif;
+  font-size: 28px;
+  margin: 0;
+  float: left;
+  width: 400px;
+}
+
+div.toolbar .right {
+  float: right;
+  text-align: right;
+}
+
 
 div.main {
   width: 600px;

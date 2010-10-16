@@ -9,8 +9,11 @@
 </head>
 <body>
 
+  <div class="toolbar">
+    <div class="title"><%= link_to 'Code With Us', root_path %></div><div class="right"><%= link_to 'Users', users_path %></div>
+  </div>
   <div class="main">
-  <%= yield %>
+    <%= yield %>
   </div>
 
 </body>

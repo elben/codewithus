@@ -24,7 +24,8 @@ class EventsController < ApplicationController
       real_event.files = params[:files].to_i
       real_event.insertions = params[:insertions].to_i
       real_event.deletions = params[:deletions].to_i
-
+    elsif kind == "push"
+      real_event = Push.new
     end
 
     if real_event.save
@@ -81,6 +82,8 @@ class EventsController < ApplicationController
     for event in total_events
       if event.kind == "commit"
         real_event = Commit.find(event.data_id)
+      elsif event.kind == "push"
+        real_event = Push.find(event.data_id)
       end
       h = {:kind => event.kind, :time => event.time, :email => user.email, :data => real_event.attributes}
       e << h
