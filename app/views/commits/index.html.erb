@@ -14,7 +14,7 @@
   <tr>
     <td><%= commit.author_email %></td>
     <td><%= commit.message %></td>
-    <td><%= commit.hash %></td>
+    <td><%= commit.commit_hash %></td>
     <td><%= link_to 'Show', commit %></td>
     <td><%= link_to 'Edit', edit_commit_path(commit) %></td>
     <td><%= link_to 'Destroy', commit, :confirm => 'Are you sure?', :method => :delete %></td>
