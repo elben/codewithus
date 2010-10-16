@@ -68,7 +68,7 @@ class EventBuilder:
         """
         
         data = {
-            "active_branch": self.repo.active_branch,
+            "active_branch": str(self.repo.active_branch),
             }
         
         return Event("checkout", int(time.time()), self.user_email, data)
