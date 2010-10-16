@@ -21,7 +21,7 @@ class Notifier:
     def __init__(self, app_name):
         self.app_name = app_name
     
-    def notify(self, title, message, icon=None):
+    def notify(self, title, message, icon_data=None):
         """
         Display a notification with the given title, message, and icon.
         """
@@ -43,12 +43,17 @@ class GrowlNotifier(Notifier):
         
         Notifier.__init__(self, app_name)
     
-    def notify(self, title, message, icon=None):
+    def notify(self, title, message, icon_data=None):
         """
         Show a Growl notification popup.
         """
         
-        self.growler.notify("git-event", title, message, icon=icon)
+        # get our Growl.Image if we got some icon data
+        img = None
+        if icon_data is not None and icon_data != "":
+            img = Growl.Image.imageWithData(icon_data)
+        
+        self.growler.notify("git-event", title, message, icon=img)
 
 class Poller:
     """
@@ -73,7 +78,6 @@ class Poller:
         # build the http 'get' request
         values = {
             "email": self.user_email,
-            #"showall": True, # debug for always getting data
             }
         
         url = self.server_name + self.subscription_url
@@ -133,22 +137,17 @@ def main(args=sys.argv):
                     title = "Checkout from %s:" % event.user_email
                     message = "Currently in branch '%s'." % event.data["active_branch"]
                 
-                # download the image file and save it locally
+                # download the image file and save its data
+                img_data = None
                 try:
-                    # where the image gets saved locally
-                    image_file = config.FACE_FOLDER + event.user_email
-                    
-                    # write the image data to our local file
-                    with open(image_file, 'wb') as f:
-                        # write the image data we get from the server
-                        urllib.urlretrieve(event.face_url, f)
-                    
+                    img_data = urllib.urlopen(event.face_url).read()
                 except Exception, e:
                     # reset the image file if we failed somewhere
-                    image_file = None
+                    img_data = None
                     print e
                 
-                n.notify(title, message, image_file)
+                # display the notification
+                n.notify(title, message, icon_data=img_data)
             
             # wait a bit before the next poll cycle
             time.sleep(config.POLL_INTERVAL)

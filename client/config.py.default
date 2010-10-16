@@ -12,6 +12,3 @@ SERVER_NAME = "http://codewithus.heroku.com"
 
 # how often to poll the server for new updates from your subscriptions
 POLL_INTERVAL = 1
-
-# where face images are stored
-FACE_FOLDER = "faces"
