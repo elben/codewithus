@@ -14,7 +14,7 @@ SERVER_ADDRESS = "http://codewithus.heroku.com"
 # internal settings
 REPO = git.Repo(REPO_DIR)
 
-class GitEvent:
+class Event:
     """
     Represents an event that we can push to the server.  Gets created
     and returned by the send_* functions, and sent to the actual server
@@ -101,7 +101,7 @@ def report_commit():
              "files": commit.stats.total["files"],
            }
     
-    return GitEvent("commit", commit.committed_date, USER, data)
+    return Event("commit", commit.committed_date, USER, data)
 
 def report_branch():
     return "branch!"
