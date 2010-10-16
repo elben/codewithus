@@ -1,6 +1,11 @@
-<h1>Hi, <%= @user.name %>!</h1>
 
-<%= link_to "Edit #{h @user.name}", edit_user_path(@user) %><br/>
+<div class="usertop">
+  <div class="face"><%= image_tag @face_url, :width => 60, :height => 60, :class => "face" %></div>
+  <div class="title">Hi, <%= @user.name %>!</div>
+  <div><%= link_to "Edit User", edit_user_path(@user) %></div>
+</div>
+<div class="floatfix"></div>
+
 
 <% if @user.subscriptions.length > 0 %>
   <h2>Who I'm Following</h2>

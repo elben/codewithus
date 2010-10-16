@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
+    @face_url = @user.face_url.blank? ? 'images/faces/default.jpg' : @user.face_url
     @users = User.all
 
     respond_to do |format|
