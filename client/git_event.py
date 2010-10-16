@@ -1,4 +1,5 @@
 import git
+import time
 
 class Event:
     """

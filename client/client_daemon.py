@@ -116,8 +116,16 @@ def main(args=sys.argv):
             # show notifications for latest events
             print "poll"
             for event in p.poll():
-                title = "Commit from %s:" % event.data["author_email"]
-                message = event.data["message"]
+                if event.kind == "commit":
+                    # TODO: is the email correct here?
+                    title = "Commit from %s:" % event.data["author_email"]
+                    message = event.data["message"]
+                elif event.kind == "push":
+                    title = "Push from %s:" % event.user_email
+                    message = "%s pushed to a repository." % event.user_email
+                elif event.kind == "checkout":
+                    title = "Checkout from %s:" % event.user_email
+                    message = "%s issued a checkout." % event.user_email
                 
                 n.notify(title, message)
             
