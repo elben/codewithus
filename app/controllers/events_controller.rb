@@ -82,8 +82,7 @@ class EventsController < ApplicationController
       if event.kind == "commit"
         real_event = Commit.find(event.data_id)
       end
-      h = {:kind => event.kind, :time => event.time, :email => user.email}
-      h.merge!(real_event.attributes)
+      h = {:kind => event.kind, :time => event.time, :email => user.email, :data => real_event.attributes}
       e << h
     end
 
