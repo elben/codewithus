@@ -91,7 +91,6 @@ class Poller:
             
             # get raw JSON data
             rdata = response.read()
-            print rdata
             
             # turn it into native data
             jdata = json.loads(rdata)
