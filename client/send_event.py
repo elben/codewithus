@@ -60,16 +60,21 @@ def report_commit():
     # all the data we'll need for this commit:
     #  active_branch: the current branch
     #  author_email: the email of the author of the commit
-    #  files_modified: a list of the full path name of modified file
-    #    for the commit
-    #  hash: the hex sha hash of the commit
+    #  hash: the sha hash (in hex) of the commit
     #  message: the commit message
+    #  deletions: number of lines deleted
+    #  insertions: number of lines inserted
+    #  lines: net (?) total lines modified
+    #  files: number of files modified
     data = {
              "active_branch": REPO.active_branch.name,
-             "author_email": commit.author.email,
-             "files_modified": [f for f in commit.stats.files],
              "hash": commit.hexsha,
+             "author_email": commit.author.email,
              "message": commit.message,
+             "deletions": commit.stats["deletions"],
+             "insertions": commit.stats["insertions"],
+             "lines": commit.stats["lines"],
+             "files": commit.stats["files"],
            }
     
     return GitEvent("commit", commit.committed_date, USER, data)
@@ -104,6 +109,7 @@ def main(args=sys.argv):
         event = report_checkout()
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
+        return
     
     # send our event to the server
     sender = Sender(SERVER_IP, SERVER_PORT)
