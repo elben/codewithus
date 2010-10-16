@@ -6,6 +6,7 @@ import time
 from pprint import pprint
 
 import git_event
+import config
 
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
@@ -17,8 +18,8 @@ class Sender:
     Sends an event to the specified remote server.
     """
     
-    def __init__(self, server_address):
-        self.server_address = server_address
+    def __init__(self, server_name):
+        self.server_name = server_name
         
         # basic info for our sender
         self.user_agent = "CodeWithUs Client"
@@ -44,12 +45,11 @@ class Sender:
         values["type"] = event.type
         
         # build the http request
-        url = self.server_address + self.event_post_url
+        url = self.server_name + self.event_post_url
         data = urllib.urlencode(values)
-        headers = {"User-Agent": self.user_agent}
-        
+            
         # build the request object and get the response data
-        request = urllib2.Request(url, data, headers)
+        request = urllib2.Request(url, data)
         
         try:
             response = urllib2.urlopen(request)
@@ -68,7 +68,7 @@ def main(args=sys.argv):
         return
     
     # build events from the specified repository
-    builder = git_event.EventBuilder(REPO_DIR, USER_EMAIL)
+    builder = git_event.EventBuilder(config.REPO_DIR, config.USER_EMAIL)
     
     # the type of event we're creating
     command = args[1]
@@ -88,7 +88,7 @@ def main(args=sys.argv):
         return
     
     # send our event to the server
-    sender = Sender(SERVER_ADDRESS)
+    sender = Sender(config.SERVER_NAME)
     if event is not None:
         sender.send_event(event)
 
