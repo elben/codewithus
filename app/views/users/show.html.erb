@@ -13,7 +13,7 @@
   <% for subscription in @user.subscriptions %>
     <tr>
       <td>
-        <%= image_tag (subscription.subscribee.face_url.blank? ? "images/faces/default.jpg" : subscription.subscribee.face_url), :width => 32, :height => 32 %></td>
+        <%= image_tag (subscription.subscribee.face_url.blank? ? "images/faces/default.jpg" : subscription.subscribee.face_url), :width => 32, :height => 32, :class => 'smallface' %></td>
       <td>
         <%= subscription.subscribee.name %>
         (<%= subscription.subscribee.email %>)
@@ -30,7 +30,7 @@
   <tr>
       <% if !@user.subscribees.include?(user) %>
         <td>
-            <%= image_tag (user.face_url.blank? ? "/images/faces/default.jpg" : user.face_url), :width => 32, :height => 32 %></td>
+          <%= image_tag (user.face_url.blank? ? "/images/faces/default.jpg" : user.face_url), :width => 32, :height => 32, :class => 'smallface' %></td>
         </td>
         <td>
           <%= user.name %>

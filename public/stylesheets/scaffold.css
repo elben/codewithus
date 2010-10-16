@@ -72,6 +72,10 @@ img.face {
   border: 8px solid #ddd;
 }
 
+img.smallface {
+  border: 4px solid #ddd;
+}
+
 div.usertop .face {
   float:left;
   margin-right: 5px;
