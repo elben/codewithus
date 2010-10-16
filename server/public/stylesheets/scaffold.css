@@ -12,12 +12,24 @@ pre {
   font-size: 11px;
 }
 
-a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
+a {
+  color: #00B4FF;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 
 div.field, div.actions {
   margin-bottom: 10px;
+}
+
+div.main {
+  width: 600px;
+  background-color: #eee;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
 }
 
 #notice {
