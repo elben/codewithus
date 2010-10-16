@@ -10,7 +10,7 @@ class EventsController < ApplicationController
     user = User.find_by_email(email)
 
     if user.nil?
-      render :json => {:status => "Error", :message => "Invalid user!", :payload => params}
+      render :json => {:status => "Error", :message => "Invalid user!"}
       return
     end
 
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
       end
     end
 
-    render :json => {:status => "Error", :message => "Failed to create event!", :payload => params}
+    render :json => {:status => "Error", :message => "Failed to create event!"}
   end
 
   def pusherror
@@ -49,7 +49,7 @@ class EventsController < ApplicationController
   def pull
     user = User.find_by_email(params[:email])
     if !user
-      render :json => {:status => "Error", :message => "No user found!", :payload => params}
+      render :json => {:status => "Error", :message => "No user found!"}
       return
     end
 
@@ -68,7 +68,7 @@ class EventsController < ApplicationController
       # mark these grabbed events as old
       sub.latest = events[-1].id
       if !sub.save
-        render :json => {:status => "Error", :message => "Failed to save subscription latest!", :payload => params}
+        render :json => {:status => "Error", :message => "Failed to save subscription latest!"}
         return
       end
     end
