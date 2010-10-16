@@ -11,6 +11,12 @@ h1 {
   font-size: 60px;
 }
 
+h2 {
+  font-family: 'Yanone Kaffeesatz', arial, serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
 pre {
   background-color: #eee;
   padding: 10px;

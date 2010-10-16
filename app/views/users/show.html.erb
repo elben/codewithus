@@ -9,20 +9,35 @@
 
 <% if @user.subscriptions.length > 0 %>
   <h2>Who I'm Following</h2>
+  <table>
   <% for subscription in @user.subscriptions %>
-    <%= subscription.subscribee.name %>
-    (<%= subscription.subscribee.email %>)
-    <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
+    <tr>
+      <td>
+        <%= image_tag (subscription.subscribee.face_url.blank? ? "images/faces/default.jpg" : subscription.subscribee.face_url), :width => 32, :height => 32 %></td>
+      <td>
+        <%= subscription.subscribee.name %>
+        (<%= subscription.subscribee.email %>)
+        <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
+      </td>
+    </tr>
   <% end %>
+  </table>
 <% end %>
 
 <h2>Recommended Users</h2>
+<table>
 <% for user in @users %>
-  <% if !@user.subscribees.include?(user) %>
-    <%= user.name %>
-    (<%= user.email %>)
-    <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
-    <br />
-  <% end %>
+  <tr>
+      <% if !@user.subscribees.include?(user) %>
+        <td>
+            <%= image_tag (user.face_url.blank? ? "/images/faces/default.jpg" : user.face_url), :width => 32, :height => 32 %></td>
+        </td>
+        <td>
+          <%= user.name %>
+          (<%= user.email %>)
+          <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
+        </td>
+      <% end %>
+  </tr>
 <% end %>
-
+</table>
