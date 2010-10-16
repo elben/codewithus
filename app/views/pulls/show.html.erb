@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Active branch:</b>
+  <%= @pull.active_branch %>
+</p>
+
+
+<%= link_to 'Edit', edit_pull_path(@pull) %> |
+<%= link_to 'Back', pulls_path %>
