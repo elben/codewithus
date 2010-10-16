@@ -13,9 +13,9 @@ class EventsController < ApplicationController
       commit.message = params[:message]
       commit.hash = params[:hash]
       commit.active_branch = params[:active_branch]
-      commit.files = params[:files]
-      commit.insertions = params[:insertions]
-      commit.deletions = params[:deletions]
+      commit.files = int(params[:files])
+      commit.insertions = int(params[:insertions])
+      commit.deletions = int(params[:deletions])
 
       if commit.save
         render :json => {:status => "OK"}
