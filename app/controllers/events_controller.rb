@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   end
 
   def pull
-    showall = !params[:showall].blank?
+    showall = params[:showall]
     user = User.find_by_email(params[:email])
     if !user
       render :json => {:status => "Error", :message => "No user found!"}
