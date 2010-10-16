@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016135302) do
+ActiveRecord::Schema.define(:version => 20101016141459) do
 
   create_table "commits", :force => true do |t|
     t.string   "author_email"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20101016135302) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "face_url"
   end
 
 end
