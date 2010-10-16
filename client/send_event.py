@@ -52,8 +52,11 @@ def main(args=sys.argv):
         print "ERROR: No event type specified."
         return
     
+    # load our config file
+    conf = config.load_config("codewithus.conf")
+    
     # build events from the specified repository
-    builder = git_event.EventBuilder(config.REPO_DIR, config.USER_EMAIL)
+    builder = git_event.EventBuilder(conf["repo_dir"], conf["user_email"])
     
     # the type of event we're creating
     command = args[1]
@@ -75,7 +78,7 @@ def main(args=sys.argv):
         return
     
     # send our event to the server
-    sender = Sender(config.SERVER_NAME)
+    sender = Sender(conf["server_name"])
     if event is not None:
         sender.send_event(event)
 
