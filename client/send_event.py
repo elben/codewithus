@@ -11,9 +11,6 @@ REPO_DIR = "/Users/shira/codewithus"
 USER = "jasontbradshaw@gmail.com"
 SERVER_ADDRESS = "http://codewithus.heroku.com"
 
-# internal settings
-REPO = git.Repo(REPO_DIR)
-
 class Event:
     """
     Represents an event that we can push to the server.  Gets created
@@ -39,7 +36,7 @@ class Sender:
         
         # basic info for our sender
         self.user_agent = "CodeWithUs Client"
-        self.event_post_url = "/event/"
+        self.event_post_url = "/event"
     
     def send_event(self, event):
         """
@@ -67,6 +64,7 @@ class Sender:
 
         # build the request object and get the response data
         request = urllib2.Request(url, data, headers)
+        
         try:
             response = urllib2.urlopen(request)
             print response.read()
@@ -74,12 +72,12 @@ class Sender:
             print e
             return
 
-def build_push():
+def build_push(repo):
     return "push!"
 
-def build_commit():
+def build_commit(repo):
     # get the commit we're going to operate on
-    commit = REPO.head.commit # latest commit for this repository
+    commit = repo.head.commit # latest commit for this repository
     
     # all the data we'll need for this commit:
     #  active_branch: the current branch
@@ -88,31 +86,31 @@ def build_commit():
     #  message: the commit message
     #  deletions: number of lines deleted
     #  insertions: number of lines inserted
-    #  lines: net (?) total lines modified
     #  files: number of files modified
     data = {
-             "active_branch": REPO.active_branch.name,
+             "active_branch": repo.active_branch.name,
              "hash": commit.hexsha,
              "author_email": commit.author.email,
              "message": commit.message,
              "deletions": commit.stats.total["deletions"],
              "insertions": commit.stats.total["insertions"],
-             "lines": commit.stats.total["lines"],
              "files": commit.stats.total["files"],
            }
     
     return Event("commit", commit.committed_date, USER, data)
 
-def build_branch():
+def build_branch(repo):
     return "branch!"
 
-def build_checkout():
+def build_checkout(repo):
     return "checkout!"
 
 def main(args=sys.argv):
     """
     Parse the args, create the event object, then send it to the server.
     """
+    
+    repo = git.Repo(REPO_DIR)
     
     if len(args) < 2:
         print "ERROR: No event type specified."
@@ -124,13 +122,13 @@ def main(args=sys.argv):
     # switch on command type
     event = None
     if command == "push":
-        event = build_push()
+        event = build_push(repo)
     elif command == "commit":
-        event = build_commit()
+        event = build_commit(repo)
     elif command == "branch":
-        event = build_branch()
+        event = build_branch(repo)
     elif command == "checkout":
-        event = build_checkout()
+        event = build_checkout(repo)
     else:
         print "ERROR: Failed to recognize event type '" + command + "'."
         return
