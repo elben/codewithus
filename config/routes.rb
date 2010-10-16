@@ -1,4 +1,6 @@
 Codewithus::Application.routes.draw do
+  resources :pulls
+
   resources :merges
 
   resources :checkouts

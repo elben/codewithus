@@ -1,0 +1,21 @@
+<%= form_for(@pull) do |f| %>
+  <% if @pull.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pull.errors.count, "error") %> prohibited this pull from being saved:</h2>
+
+      <ul>
+      <% @pull.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :active_branch %><br />
+    <%= f.text_field :active_branch %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -29,9 +29,15 @@ class EventsController < ApplicationController
     elsif kind == "checkout"
       real_event = Checkout.new
       real_event.active_branch = params[:active_branch]
-    else kind == "merge"
+    elsif kind == "merge"
       real_event = Merge.new
       real_event.message = params[:message]
+    elsif kind == "pull"
+      real_event = Pull.new
+      real_event.active_branch = params[:active_branch]
+    else
+      render :json => {:status => "Error", :message => "Invalid kind!"}
+      return
     end
 
     if real_event.save
@@ -94,6 +100,8 @@ class EventsController < ApplicationController
         real_event = Checkout.find(event.data_id)
       elsif event.kind == "merge"
         real_event = Merge.find(event.data_id)
+      elsif event.kind == "pull"
+        real_event = Pull.find(event.data_id)
       end
       h = {:kind => event.kind, :time => event.time, :email => event.user.email,
         :face_url => (event.user.face_url.blank? ? "http://codewithus.heroku.com/images/faces/default.jpg" : event.user.face_url),

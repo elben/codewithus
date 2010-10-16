@@ -1,0 +1,23 @@
+<h1>Listing pulls</h1>
+
+<table>
+  <tr>
+    <th>Active branch</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pulls.each do |pull| %>
+  <tr>
+    <td><%= pull.active_branch %></td>
+    <td><%= link_to 'Show', pull %></td>
+    <td><%= link_to 'Edit', edit_pull_path(pull) %></td>
+    <td><%= link_to 'Destroy', pull, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pull', new_pull_path %>
