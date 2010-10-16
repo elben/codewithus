@@ -136,6 +136,9 @@ def main(args=sys.argv):
                 elif event.kind == "checkout":
                     title = "Checkout from %s:" % event.user_email
                     message = "Currently in branch '%s'." % event.data["active_branch"]
+                elif event.kind == "merge":
+                    title = "Merge from %s:" % event.user_email
+                    message = event.data["message"]
                 
                 # download the image file and save its data
                 img_data = None
