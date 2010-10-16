@@ -73,7 +73,7 @@ class Poller:
         # build the http 'get' request
         values = {
             "email": self.user_email,
-            "showall": True, # debug for always getting data
+            #"showall": True, # debug for always getting data
             }
         
         url = self.server_name + self.subscription_url
