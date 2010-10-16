@@ -1,14 +1,6 @@
-# config options for CodeWithUs hooks and daemon
-#################################################
-
-# your user email, used to assign events to you on the server
-USER_EMAIL = "bob@bobisthebest.com"
-
-# the repo to get data from
-REPO_DIR = "/home/users/bob/git_repo"
-
-# name of the server to poll/push events to
-SERVER_NAME = "http://codewithus.heroku.com"
-
-# how often to poll the server for new updates from your subscriptions
-POLL_INTERVAL = 1
+{
+        "user_email": "bob@email.com",
+        "repo_dir": "/path/to/repo",
+        "server_name": "http://some.server.somewhere",
+        "poll_interval": 1
+}
