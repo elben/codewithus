@@ -1,0 +1,23 @@
+<h1>Listing merges</h1>
+
+<table>
+  <tr>
+    <th>Message</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @merges.each do |merge| %>
+  <tr>
+    <td><%= merge.message %></td>
+    <td><%= link_to 'Show', merge %></td>
+    <td><%= link_to 'Edit', edit_merge_path(merge) %></td>
+    <td><%= link_to 'Destroy', merge, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Merge', new_merge_path %>
