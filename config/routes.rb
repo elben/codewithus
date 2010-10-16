@@ -9,8 +9,8 @@ Codewithus::Application.routes.draw do
 
   resources :users
 
-  match '/event/', :to => 'events#push', :via => :post, :as => 'push'
-  match '/feed/', :to => 'events#pull', :via => :post, :as => 'pull'
+  match '/event/', :to => 'events#push', :via => :post, :as => 'clientpush'
+  match '/feed/', :to => 'events#pull', :via => :post, :as => 'clientpull'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
