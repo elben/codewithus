@@ -23,7 +23,8 @@ class Sender:
         Sends our event to the server in a format it can understand.
         """
         
-        # create the url parameters as a dict
+        # create the url parameters as a dict starting with the data
+        # it already contains.
         values = event.data
         values["email"] = event.user_email
         values["time"] = event.timestamp
@@ -64,8 +65,6 @@ def main(args=sys.argv):
         event = builder.build_push()
     elif command == "commit":
         event = builder.build_commit()
-    elif command == "branch":
-        event = builder.build_branch()
     elif command == "checkout":
         event = builder.build_checkout()
     else:
