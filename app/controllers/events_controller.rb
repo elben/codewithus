@@ -3,11 +3,34 @@ class EventsController < ApplicationController
 
   def push
     # TODO do work here
-    render :json => {:status => "OK"}
+    email = params[:email]
+    time = params[:time]
+    type = params[:type]
+
+    if type == "commit"
+      commit = Commit.new
+      commit.author_email = params[:author_email]
+      commit.message = params[:message]
+      commit.hash = params[:hash]
+      commit.active_branch = params[:active_branch]
+      commit.files = params[:files]
+      commit.insertions = params[:insertions]
+      commit.deletions = params[:deletions]
+      commit.lines = params[:lines]
+
+      if commit.save
+        render :json => {:status => "OK"}
+        return
+      else
+        render :json => {:status => "Error", :message => "Failed to create new commit event!", :payload => params}
+        return
+      end
+    end
+    render :json => {:status => "Event not implemented.", :payload => params}
   end
 
   def pusherror
-    render 'test'
+    render 'error'
   end
 
   # GET /events
