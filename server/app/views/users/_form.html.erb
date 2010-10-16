@@ -16,20 +16,6 @@
     <%= f.text_field :username %>
   </div>
 
-  <div class="field">
-    <h2>Subscriptions</h2>
-    <% for user in @users %>
-      <% if !@user.subscribees.include?(user) %>
-        <%= user.username %> <%= link_to "Subscribe", subscriptions_path(:user_id => @user, :subscribee_id => user), :method => :post %>
-        <br />
-      <% end %>
-    <% end %>
-
-    <% for subscription in @user.subscriptions %>
-      <%= subscription.subscribee.username %> <%= link_to "Unsubscribe", subscription, :method => :delete %><br />
-    <% end %>
-  </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>
