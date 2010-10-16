@@ -72,6 +72,9 @@ class Poller:
         url = self.server_name + self.subscription_url
         data = urllib.urlencode({"email": self.user_email})
         
+        # how we'll turn our data into events once again
+        eb = git_event.EventBuilder(config.REPO_NAME, config.USER_EMAIL)
+        
         # build the request object and get the response data
         request = urllib2.Request(url, data)
         
@@ -81,8 +84,6 @@ class Poller:
         except Exception, e:
             print e
             return
-
-
         
         return result
 

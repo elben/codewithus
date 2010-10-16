@@ -32,7 +32,7 @@ class Sender:
         
         # TODO: remove test printing
         print "Sending an event to the server..."
-        print "type:", event.type
+        print "kind:", event.kind
         print "user_email:", event.user_email
         print "time:", event.timestamp
         print "data:"
@@ -42,7 +42,7 @@ class Sender:
         values = event.data
         values["email"] = event.user_email
         values["time"] = event.timestamp
-        values["type"] = event.type
+        values["kind"] = event.kind
         
         # build the http request
         url = self.server_name + self.event_post_url

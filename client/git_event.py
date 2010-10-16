@@ -7,8 +7,8 @@ class Event:
     by a Sender object.
     """
     
-    def __init__(self, type, timestamp, user_email, data):
-        self.type = type
+    def __init__(self, kind, timestamp, user_email, data):
+        self.kind = kind
         self.timestamp = timestamp
         self.user_email = user_email
         
