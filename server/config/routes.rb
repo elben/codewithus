@@ -1,4 +1,6 @@
 Codewithus::Application.routes.draw do
+  resources :subscriptions
+
   resources :commits
 
   resources :events
