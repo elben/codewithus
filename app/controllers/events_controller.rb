@@ -32,6 +32,7 @@ class EventsController < ApplicationController
       event.kind = kind
       event.user_id = user.id
       event.data_id = real_event.id
+      event.time = params[:time].to_i
 
       if event.save
         render :json => {:status => "OK"}
