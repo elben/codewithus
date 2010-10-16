@@ -3,12 +3,13 @@ Codewithus::Application.routes.draw do
 
   resources :commits
 
-  resources :events
+  resources :events, :path => 'e'
 
   resources :users
 
   match '/event/', :to => 'events#push', :via => :post
   match '/event/', :to => 'events#pusherror', :via => :get
+  match '/events/', :to => 'events#pull', :via => :get
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

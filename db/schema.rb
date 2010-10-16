@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016062731) do
+ActiveRecord::Schema.define(:version => 20101016063206) do
 
   create_table "commits", :force => true do |t|
     t.string   "author_email"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(:version => 20101016062731) do
     t.integer  "files"
     t.integer  "insertions"
     t.integer  "deletions"
-    t.integer  "lines"
   end
 
   create_table "events", :force => true do |t|
