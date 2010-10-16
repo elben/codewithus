@@ -1,4 +1,3 @@
-import git
 import urllib
 import urllib2
 import sys
@@ -6,25 +5,12 @@ import time
 
 from pprint import pprint
 
+import git_event
+
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
 USER_EMAIL = "jasontbradshaw@gmail.com"
 SERVER_ADDRESS = "http://codewithus.heroku.com"
-
-class Event:
-    """
-    Represents an event that we can push to the server.  Gets created
-    and returned by the build_* functions, and sent to the actual server
-    by a Sender object.
-    """
-    
-    def __init__(self, type, timestamp, user_email, data):
-        self.type = type
-        self.timestamp = timestamp
-        self.user_email = user_email
-        
-        # a dict of event-type specific info (gets parsed by Sender)
-        self.data = data
 
 class Sender:
     """
@@ -72,47 +58,6 @@ class Sender:
             print e
             return
 
-class EventBuilder:
-    """
-    Builds and returns correctly formatted events.
-    """
-    
-    def __init__(self, repo):
-        self.repo = repo
-    
-    def build_push(self):
-        raise NotImplementedException("Must implement push!")
-
-    def build_commit(self):
-        # get the commit we're going to operate on
-        commit = self.repo.head.commit # latest commit for this repository
-        
-        # all the data we'll need for this commit:
-        #  active_branch: the current branch
-        #  author_email: the email of the author of the commit
-        #  hash: the sha hash (in hex) of the commit
-        #  message: the commit message
-        #  deletions: number of lines deleted
-        #  insertions: number of lines inserted
-        #  files: number of files modified
-        data = {
-            "active_branch": self.repo.active_branch.name,
-            "commit_hash": commit.hexsha,
-            "author_email": commit.author.email,
-            "message": commit.message,
-            "deletions": commit.stats.total["deletions"],
-            "insertions": commit.stats.total["insertions"],
-            "files": commit.stats.total["files"],
-            }
-        
-        return Event("commit", commit.committed_date, USER_EMAIL, data)
-
-    def build_branch(self):
-        raise NotImplementedException("Must implement branch!")
-
-    def build_checkout(self):
-        raise NotImplementedException("Must implement checkout!")
-
 def main(args=sys.argv):
     """
     Parse the args, create the event object, then send it to the server.
@@ -123,7 +68,7 @@ def main(args=sys.argv):
         return
     
     # build events from the specified repository
-    builder = EventBuilder(git.Repo(REPO_DIR))
+    builder = git_event.EventBuilder(REPO_DIR, USER_EMAIL)
     
     # the type of event we're creating
     command = args[1]
