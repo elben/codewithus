@@ -47,6 +47,7 @@ class EventsController < ApplicationController
   end
 
   def pull
+    showall = !params[:showall].blank?
     user = User.find_by_email(params[:email])
     if !user
       render :json => {:status => "Error", :message => "No user found!"}
@@ -59,7 +60,7 @@ class EventsController < ApplicationController
     for sub in subs
       # get new events from the users we are subscribed to
       latest = sub.latest.to_i
-      events = Event.where(["user_id = ? AND id > ?", sub.subscribee.id, latest])
+      events = Event.where(["user_id = ? AND id > ?", sub.subscribee.id, showall ? 0 : latest])
       next if events.length == 0
 
       # TODO remove events that are too old (e.g. after 5 minutes)
