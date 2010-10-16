@@ -1,0 +1,23 @@
+<h1>Listing checkouts</h1>
+
+<table>
+  <tr>
+    <th>Active branch</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @checkouts.each do |checkout| %>
+  <tr>
+    <td><%= checkout.active_branch %></td>
+    <td><%= link_to 'Show', checkout %></td>
+    <td><%= link_to 'Edit', edit_checkout_path(checkout) %></td>
+    <td><%= link_to 'Destroy', checkout, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Checkout', new_checkout_path %>

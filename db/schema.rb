@@ -10,7 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016141459) do
+ActiveRecord::Schema.define(:version => 20101016151913) do
+
+  create_table "checkouts", :force => true do |t|
+    t.string   "active_branch"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "commits", :force => true do |t|
     t.string   "author_email"

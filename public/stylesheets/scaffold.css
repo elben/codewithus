@@ -11,6 +11,12 @@ h1 {
   font-size: 60px;
 }
 
+h2 {
+  font-family: 'Yanone Kaffeesatz', arial, serif;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
 pre {
   background-color: #eee;
   padding: 10px;
@@ -62,6 +68,25 @@ div.toolbar .right {
   text-align: right;
 }
 
+img.face {
+  border: 8px solid #ddd;
+}
+
+img.smallface {
+  border: 4px solid #ddd;
+}
+
+div.usertop .face {
+  float:left;
+  margin-right: 5px;
+}
+
+div.usertop .title {
+  line-height: 1.0em;
+  font-family: 'Yanone Kaffeesatz', arial, serif;
+  font-size: 60px;
+  margin-bottom: 0px;
+}
 
 div.main {
   width: 600px;
@@ -69,6 +94,10 @@ div.main {
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+}
+
+div.floatfix {
+  clear: both;
 }
 
 #notice {
@@ -128,3 +157,4 @@ table#container tr:nth-child(odd) {
 table#container tr:nth-child(even) {
   background-color: #f3f3f3;
 }
+

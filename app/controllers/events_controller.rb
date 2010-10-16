@@ -26,6 +26,9 @@ class EventsController < ApplicationController
       real_event.deletions = params[:deletions].to_i
     elsif kind == "push"
       real_event = Push.new
+    elsif kind == "checkout"
+      real_event = Checkout.new
+      real_event.active_branch = params[:active_branch]
     end
 
     if real_event.save
@@ -84,8 +87,12 @@ class EventsController < ApplicationController
         real_event = Commit.find(event.data_id)
       elsif event.kind == "push"
         real_event = Push.find(event.data_id)
+      elsif event.kind == "checkout"
+        real_event = Checkout.find(event.data_id)
       end
-      h = {:kind => event.kind, :time => event.time, :email => event.user.email, :data => real_event.attributes}
+      h = {:kind => event.kind, :time => event.time, :email => event.user.email,
+        :face_url => (event.user.face_url.blank? ? "http://codewithus.heroku.com/images/faces/default.jpg" : event.user.face_url),
+        :data => real_event.attributes}
       e << h
     end
 
