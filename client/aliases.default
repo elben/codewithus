@@ -1,0 +1,3 @@
+[alias]
+        pll = !python client/send_event.py push && git push
+        psh = !python client/send_event.py pull && git pull
