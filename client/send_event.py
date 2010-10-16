@@ -1,7 +1,6 @@
 import git
 import urllib2
 import sys
-import json
 import time
 
 from pprint import pprint
@@ -23,21 +22,12 @@ class GitEvent:
     """
     
     def __init__(self, type, timestamp, user, data):
-        self.user = user
         self.type = type
         self.timestamp = timestamp
+        self.user = user
         
-        # a dict representing a JSON object
+        # a dict of event-type specific info (gets parsed by Sender)
         self.data = data
-    
-    def __str__(self):
-        """
-        Returns a string of format:
-          <type> user (branch): "message"
-        """
-        
-        return '<%s> %s: "%s"' % (str(self.type), str(self.user),
-                                       str(self.data))
 
 class Sender:
     """
@@ -57,7 +47,7 @@ class Sender:
         print "type:", event.type
         print "user:", event.user
         print "timestamp:", event.timestamp
-        print"data:"
+        print "data:"
         pprint(event.data)
 
 def report_push():
