@@ -67,8 +67,10 @@ class EventBuilder:
         Tell what branch we're on after we checkout.
         """
         
+        print type(self.repo.active_branch)
+        
         data = {
-            "active_branch": str(self.repo.active_branch),
+            "active_branch": self.repo.active_branch,
             }
         
         return Event("checkout", int(time.time()), self.user_email, data)
