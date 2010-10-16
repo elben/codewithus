@@ -1,4 +1,5 @@
 import git
+import urllib
 import urllib2
 import sys
 import time
@@ -8,7 +9,7 @@ from pprint import pprint
 # user settings
 REPO_DIR = "/Users/shira/codewithus"
 USER = "jasontbradshaw@gmail.com"
-SERVER_ADDRESS = "127.0.0.1:5000"
+SERVER_ADDRESS = "http://codewithus.heroku.com"
 
 # internal settings
 REPO = git.Repo(REPO_DIR)
@@ -37,21 +38,42 @@ class Sender:
         self.server_address = server_address
         
         # basic info for our sender
-        self.user_agent = "CodeWithMe"
-        self.base_url = "/event/"
+        self.user_agent = "CodeWithUs Client"
+        self.event_post_url = "/event/"
     
     def send_event(self, event):
         """
         Sends our event to the server in a format it can understand.
         """
         
+        # TODO: remove test printing
         print "Sending an event to the server..."
         print "type:", event.type
         print "user:", event.user
         print "timestamp:", event.timestamp
         print "data:"
         pprint(event.data)
+        
+        # create the url parameters as a dict
+        values = event.data
+        values["email"] = event.user
+        values["time"] = event.timestamp
+        values["type"] = event.type
+        
+        # build the http request
+        url = self.server_address + self.event_post_url
+        data = urllib.urlencode(values)
+        headers = {"User-Agent": self.user_agent}
 
+        # build the request object and get the response data
+        request = urllib2.Request(url, data, headers)
+        try:
+            response = urllib2.urlopen(request)
+            print response.read()
+        except Exception, e:
+            print e
+            return
+        
 def report_push():
     return "push!"
 
@@ -73,10 +95,10 @@ def report_commit():
              "hash": commit.hexsha,
              "author_email": commit.author.email,
              "message": commit.message,
-             "deletions": commit.stats["deletions"],
-             "insertions": commit.stats["insertions"],
-             "lines": commit.stats["lines"],
-             "files": commit.stats["files"],
+             "deletions": commit.stats.total["deletions"],
+             "insertions": commit.stats.total["insertions"],
+             "lines": commit.stats.total["lines"],
+             "files": commit.stats.total["files"],
            }
     
     return GitEvent("commit", commit.committed_date, USER, data)
