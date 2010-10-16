@@ -29,12 +29,15 @@ class EventsController < ApplicationController
     elsif kind == "checkout"
       real_event = Checkout.new
       real_event.active_branch = params[:active_branch]
-    else kind == "merge"
+    elsif kind == "merge"
       real_event = Merge.new
       real_event.message = params[:message]
-    else kind == "pull"
+    elsif kind == "pull"
       real_event = Pull.new
       real_event.active_branch = params[:active_branch]
+    else
+      render :json => {:status => "Error", :message => "Invalid kind!"}
+      return
     end
 
     if real_event.save
