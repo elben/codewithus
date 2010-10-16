@@ -1,2 +1,76 @@
-Code With Us
-some more!
+CodeWithUs (last updated 10/16/2010)
+----
+
+ABOUT
+----
+CodeWithUs allows a group of coders to view real-time status updates on
+eachother's code via desktop notifications.  Via the web interface, you
+subscibe to other users, then via the client application you get
+desktop notifications of their actions as they happen.
+
+REQUIREMENTS
+----
+The follwoing must be installed on a Mac running OSX:
+
+Python (tested with version 2.6)
+git (version 1.5 or later)
+Growl for OSX (http://growl.info)
+GitPython (http://gitorious.org/git-python)
+Growl Python sdk (http://growl.info/documentation/developer/python-support.php)
+
+SETUP
+----
+The first step is to clone the git repository from
+htpp://github.com/eshira/codewithus.  This contains the Ruby on Rails
+application that hosts the web server, as well as the client application.
+Once you have a server set up (heroku.com is easiest, at least to test),
+you can create users (identified by the provided email) and subscribe to
+them.  NOTE: their is literally no security implemented; anyone can
+modify anyone else's subscriptions/pictures/etc. at any time.  After
+creating users on the web, you must configure the client application,
+located in the codewithus/client directory from the cloned repository.
+codewithus.conf.default gives an example implementation, and the options
+should be self-explanatory.  The email in the config is how your posts
+are identified to the server, so to make your posts go to your user
+(or anyone else's, for that matter!), you must match the emails here.
+Once configured, you must run the client_daemon.py script located in the
+client directory.  This polls the server for new updates from your
+subscriptions and displays them via Growl.
+
+To run the daemon:
+  $ python client_daemon.py path/to/config/file
+
+send_event.py sends various events based on the config file settings and
+the argument passed.  It must be installed via the .git/hooks folder of
+the desired repository.  The client/hooks folder provides a sample
+implementation of the git hooks.  The included hooks are the only ones
+required.  These are run (in our case) after the indicated events, and
+must be executable (chmod +x) and located in the repository's .git/hooks
+folder.
+
+To run the event sender from a git hook script:
+  $ python send_event.py /path/to/config/file event_type
+event_type must be one of: merge, push, pull, commit, checkout
+
+These hooks take care of merge, commit, and checkout.  Aliases must cover
+push and pull (until git adds hooks for these events, or we patch git to
+have those hooks ourselves).  To the .git/config file, a section named
+'[alias]' must be added, and the aliases located in the repo's
+client/aliases.default provide a starting place for this.  Paths must
+be changed to follow the same format as hooks.  Make sure to include the
+'!' before the command in the alias, this makes git execute the line as
+an external command rather than as one using the git program itself (see
+https://git.wiki.kernel.org/index.php/Aliases#Advanced for more info on
+git aliases).
+
+Assuming you get all this up and running (easier than it sounds,
+hopefully) and your config file properly specified, when you push, pull,
+commit, merge, or checkout, the server will be sent an event of such, and
+all subscribed users will be able to see it.
+
+FUTURE
+----
+ - Support for more notification systems.  Nothing theoretically prevents
+   it from running on these systems, but the only notification plugin
+   implemented is Growl on OSX, hence the requirement.
+ - Having actual security on the website :)
