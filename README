@@ -34,7 +34,7 @@ htpp://github.com/eshira/codewithus.  This contains the Ruby on Rails
 application that hosts the web server, as well as the client application.
 Once you have a server set up (heroku.com is easiest, at least to test),
 you can create users (identified by the provided email) and subscribe to
-them.  NOTE: their is literally no security implemented; anyone can
+them.  NOTE: there is literally no security implemented; anyone can
 modify anyone else's subscriptions/pictures/etc. at any time.  After
 creating users on the web, you must configure the client application,
 located in the codewithus/client directory from the cloned repository.
